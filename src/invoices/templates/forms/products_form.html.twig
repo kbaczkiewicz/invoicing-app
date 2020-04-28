@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col">
+        <p class="text-center bold-24px">Products</p>
+        <div class="table-responsive">
+            <table data-model="products" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">VAT rate</th>
+                    <th scope="col">Total price</th>
+                    <th scope="col">Currency</th>
+                    <th scope="col">Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><p>1</p></td>
+                    <td><input required class="form-control" name="invoice[products][0][name]"/></td>
+                    <td><input required class="form-control" data-function="productQuantity" name="invoice[products][0][quantity]"/></td>
+                    <td><input required class="form-control" data-function="productPriceNett" name="invoice[products][0][priceNett][amount]"/></td>
+                    <td><input required class="form-control" data-function="productVatRate" name="invoice[products][0][vatRate]"/></td>
+                    <td><input class="form-control" disabled/></td>
+                    <td>
+                        <select required class="form-control" name="invoice[products][0][priceNett][currency]">
+                            {% for country in countries %}
+                                <option value="{{ country.currency }}">{{ country.currency }}</option>
+                            {% endfor %}
+                        </select>
+
+
+                    </td>
+                    <td>
+                        <button type="button" data-action="removeProduct" class="btn btn-danger btn-sm">-</button>
+                        <br/>
+                        <button type="button" data-action="addProduct" class="btn btn-success btn-sm">+</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

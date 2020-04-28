@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col">
+        <p class="text-center bold-24px">Invoice data</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        <div class="row">
+            <div class="col-4">
+                <label>Invoice no</label>
+            </div>
+            <div class="col-8">
+                <input class="form-control" name="invoice[number]"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="row">
+            <div class="col-4">
+                <label>Date issued</label>
+            </div>
+            <div class="col-8">
+                <input class="form-control datepicker" name="invoice[dateIssued]"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="row">
+            <div class="col-4">
+                <label>Payment date</label>
+            </div>
+            <div class="col-8">
+                <input class="form-control datepicker" name="invoice[paymentDate]"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="row">
+            <div class="col-4">
+                <label>Payment type</label>
+            </div>
+            <div class="col-8">
+                <select required  class="form-control" name="invoice[paymentType]">
+                    <option value="Transfer">Transfer</option>
+                    <option value="Cash">Cash</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

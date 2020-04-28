@@ -1,0 +1,45 @@
+{% extends 'main.html.twig' %}
+{% block title %}Countries{% endblock %}
+{% block errors %}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {% if countries %}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">ISO Code</th>
+                            <th scope="col">Currency</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for country in countries %}
+                            <tr data-id="{{ country.id }}">
+                                <td>{{ country.name}}</td>
+                                <td>{{ country.isoCode ?? "(( Not set ))" }}</td>
+                                <td>{{ country.currency}}</td>
+                                <td>
+                                    <button class="btn btn-secondary"><span class="glyphicon glyphicon-cog"
+                                                                            title="Edit"></span>
+                                    </button>
+                                    <button class="btn btn-secondary"><span
+                                                class="glyphicon glyphicon-remove-circle" title="Delete"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No countries</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+{% endblock %}

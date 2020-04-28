@@ -1,0 +1,126 @@
+{% extends 'main.html.twig' %}
+{% block title %}Create invoice{% endblock %}
+{% block body %}
+    <div class="container margin-bottom-20px">
+        <div class="row">
+            <div class="col">
+                <form data-invoice-id="{{ invoiceId }}" action="/save/{{ invoiceId }}" method="POST">
+                    {% include 'forms/invoice_data_form.html.twig' %}
+                    <div class="margin-bottom-20px"></div>
+                    {% include('forms/contacts_form.html.twig') %}
+                    <div class="margin-bottom-20px"></div>
+                    {% include('forms/products_form.html.twig') %}
+                    <div class="row">
+                        <div class="col-2">
+                            <a href="/" class="btn btn-danger">Cancel</a>
+                        </div>
+                        <div class="col-2 offset-8">
+                            <button type="submit" class="btn btn-success float-right margin-left-5px">Save</button>
+                            <button type="button" data-action="saveDraft"
+                                    class="btn btn-light float-right">Save draft
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('js/manageProducts.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+    <script>
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    </script>
+    <script>
+        function getElemValByName(name) {
+            var value = $('input[name="' + name + '"').val()
+            return value;
+        }
+
+        function getCountry(contactType) {
+            return $('select[name="invoice[' + contactType + '][billingAddress][country]"] option:selected').val();
+        }
+
+        function getCurrency(elementNo) {
+            return $('select[name="invoice[products][' + elementNo + '][priceNett][currency]"] option:selected').val();
+        }
+
+        function getPaymentType(elementNo) {
+            return $('select[name="invoice[paymentType][type]"] option:selected').val();
+        }
+
+        function getIssuerData() {
+            var data = {};
+            data['name'] = getElemValByName('invoice[issuer][name]');
+            data['vatId'] = getElemValByName('invoice[issuer][vatId]');
+            data['billingAddress'] = {};
+            data['billingAddress']['country'] = getCountry('issuer');
+            data['billingAddress']['postCode'] = getElemValByName('invoice[issuer][billingAddress][postCode]');
+            data['billingAddress']['city'] = getElemValByName('invoice[issuer][billingAddress][city]');
+            data['billingAddress']['streetName'] = getElemValByName('invoice[issuer][billingAddress][streetName]');
+            data['billingAddress']['buildingNumber'] = getElemValByName('invoice[issuer][billingAddress][buildingNumber]');
+            data['billingAddress']['apartmentNumber'] = getElemValByName('invoice[issuer][billingAddress][apartmentNumber]');
+            data['accountNumber'] = getElemValByName('invoice[issuer][accountNumber]');
+
+            return data;
+        }
+
+        function getReceiverData() {
+            var data = {};
+            data['name'] = getElemValByName('invoice[receiver][name]');
+            data['vatId'] = getElemValByName('invoice[receiver][vatId]');
+            data['billingAddress'] = {};
+            data['billingAddress']['country'] = getCountry('receiver');
+            data['billingAddress']['postCode'] = getElemValByName('invoice[receiver][billingAddress][postCode]');
+            data['billingAddress']['city'] = getElemValByName('invoice[receiver][billingAddress][city]');
+            data['billingAddress']['streetName'] = getElemValByName('invoice[receiver][billingAddress][streetName]');
+            data['billingAddress']['buildingNumber'] = getElemValByName('invoice[receiver][billingAddress][buildingNumber]');
+            data['billingAddress']['apartmentNumber'] = getElemValByName('invoice[receiver][billingAddress][apartmentNumber]');
+            data['accountNumber'] = getElemValByName('invoice[receiver][accountNumber]');
+
+            return data;
+        }
+
+        function getProductsData() {
+            var data = {};
+            var productsCount = $('table[data-model="products"] tbody tr').length;
+            for (var i = 0; i < productsCount; i++) {
+                data[i] = {};
+                data[i]['priceNett'] = {};
+                data[i]['name'] = getElemValByName('invoice[products][' + i + '][name]');
+                data[i]['quantity'] = getElemValByName('invoice[products][' + i + '][quantity]');
+                data[i]['priceNett']['amount'] = getElemValByName('invoice[products][' + i + '][priceNett][amount]');
+                data[i]['vatRate'] = {};
+                data[i]['vatRate']['rate'] = getElemValByName('invoice[products][' + i + '][vatRate][rate]');
+                data[i]['priceNett']['currency'] = getCurrency(i);
+            }
+
+            return data;
+        }
+
+        function getInvoiceData() {
+            var data = {};
+            data['number'] = getElemValByName('invoice[number]');
+            data['dateIssued'] = getElemValByName('invoice[dateIssued]');
+            data['paymentDate'] = getElemValByName('invoice[paymentDate]');
+            data['paymentType'] = {};
+            data['paymentType']['type'] = getPaymentType('invoice[paymentType]');
+
+            return data;
+        }
+
+        $('button[data-action="saveDraft"').on('click', function () {
+            var invoiceId = $('form').data('invoice-id');
+            var data = {};
+            data['invoice'] = getInvoiceData();
+            data['invoice']['issuer'] = getIssuerData();
+            data['invoice']['receiver'] = getReceiverData();
+            data['invoice']['products'] = getProductsData();
+            var json = JSON.stringify(data);
+            $.ajax({method: 'POST', url: '/saveDraft/' + invoiceId, data: json});
+        })
+    </script>
+{% endblock %}

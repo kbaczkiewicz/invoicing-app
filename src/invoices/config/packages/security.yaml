@@ -1,0 +1,24 @@
+security:
+    encoders:
+        App\Application\Entity\AppUser:
+            algorithm: auto
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Application\Entity\AppUser
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+            form_login:
+                login_path: login
+                check_path: login
+                use_referer: true
+            logout:
+                path: app_logout
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

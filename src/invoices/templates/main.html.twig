@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-inverse bg-dark margin-bottom-20px">
+    <a class="navbar-brand" href="/">App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            {% if app.user %}
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="countryLink" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Countries
+                </a>
+                <div class="dropdown-menu" aria-labelledby="countryLink">
+                    <a class="dropdown-item" href="/countries">List</a>
+                    <a class="dropdown-item" href="/country/create">Create country</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="countryLink" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Invoices
+                </a>
+                <div class="dropdown-menu" aria-labelledby="countryLink">
+                    <a class="dropdown-item" href="/">List</a>
+                    <a class="dropdown-item" href="/create">Create invoice</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="jumbotron">
+                <p class="header-title">Invoices app</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% block errors %}
+    {% if errors %}
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    {% for error in errors %}
+                        <div class="alert alert-danger">
+                            <p>{{ error }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block body %}
+{% endblock %}
+<script src="{{ asset('js/jquery.js') }}"></script>
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.js') }}"></script>
+{% block scripts %}
+{% endblock %}
+</body>

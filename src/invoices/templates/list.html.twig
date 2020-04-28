@@ -1,0 +1,79 @@
+{% extends 'main.html.twig' %}
+{% block title %}Invoices{% endblock %}
+{% block errors %}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {% if invoices %}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Invoice no</th>
+                            <th scope="col">Date created</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for invoice in invoices %}
+                            <tr data-id="{{ invoice.id }}">
+                                <td>
+                                    {% if 'Issued' == invoice.status %}
+                                        <a href="/show/{{ invoice.id }}">{{ invoice.number ?? "(( Not set ))" }}</a>
+                                    {% else %}
+                                        {{ invoice.number ?? "(( Not set ))" }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ invoice.dateCreated ?? "(( Not set ))" }}</td>
+                                <td data-action="updateStatus">{{ invoice.status ?? "(( Not set ))" }}</td>
+                                <td>
+                                    <a href="/edit/{{ invoice.id }}" class="btn btn-secondary"><span
+                                                class="glyphicon glyphicon-cog" title="Edit"></span>
+                                    </a>
+                                    <span class="dropdown">
+                                        <button class="btn btn-secondary" type="button" title="Change status"
+                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            <span class="glyphicon glyphicon-minus"></span>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            {% for status in statuses %}
+                                                <button class="dropdown-item"
+                                                   data-action="changeStatus">{{ status.get() }}</button>
+                                            {% endfor %}
+                                        </div>
+                                    </span>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No invoices</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{ parent() }}
+    <script>
+        $('button[data-action="changeStatus"]').on('click', function () {
+            var $element = $(this);
+            var id = $element.parent().parent().parent().parent().data('id');
+            var statusName = $(this).text();
+            $.ajax({
+                url: '/invoice/' + id + '/status/' + statusName,
+                method: 'PATCH',
+                success: function(data) {
+                    $element.parent().parent().parent().prev().html('<b>'+statusName+'</b>');
+                },
+                error: function (data) {
+                    console.error(data)
+                }
+            });
+        })
+    </script>
+{% endblock %}

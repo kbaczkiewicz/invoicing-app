@@ -1,0 +1,87 @@
+{% extends('main.html.twig') %}
+{% block title %}Invoice no {{ invoice.id }}{% endblock %}
+{% block errors %}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center">Invoice no {{ invoice.number }}</h1>
+            </div>
+            <div class="col-10 offset-1">
+                <div class="row">
+                    <div class="col-3 margin-bottom-20px">
+                        Number: {{ invoice.number }}<br/>
+                        Date issued: {{ invoice.dateIssued }}<br/>
+                        Payment date: {{ invoice.paymentDate }}<br/>
+                        Payment type: {{ invoice.paymentType.name }}<br/>
+                    </div>
+                </div>
+                <div class="row margin-bottom-20px">
+                    <div class="col-4">
+                        <p class="text-center">Issuer data:</p>
+                        {{ invoice.issuer.name }}<br/>
+                        {{ invoice.issuer.billingAddress.city }}<br/>
+                        {{ invoice.issuer.billingAddress.streetName }}<br/>
+                        {{ invoice.issuer.billingAddress.buildingNumber }}<br/>
+                    </div>
+                    <div class="col-4 offset-4">
+                        <p class="text-center">Receiver data:</p>
+                        {{ invoice.receiver.name }}<br/>
+                        {{ invoice.receiver.billingAddress.city }}
+                        , {{ invoice.receiver.billingAddress.streetName }}{{ invoice.receiver.billingAddress.buildingNumber }} /
+                        {% if invoice.receiver.billingAddress.apartmentNumber %}{{ invoice.receiver.billingAddress.apartmentNumber }}{% endif %}
+                        <br/>
+                        {{ invoice.receiver.billingAddress.postCode }} {{ invoice.receiver.billingAddress.city }}<br/>
+                        <br/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Unit nett price</th>
+                                <th>Quantity</th>
+                                <th>Price nett</th>
+                                <th>Tax</th>
+                                <th>Tax value</th>
+                                <th>Price gross</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for no, product in invoice.products %}
+                                <tr>
+                                    <td>{{ no + 1 }}</td>
+                                    <td>{{product.name}}</td>
+                                    <td>{{ product.unitPriceNett.amount / 100 }} {{ product.priceNett.currency }}</td>
+                                    <td>{{ product.quantity }}</td>
+                                    <td>{{ product.priceNett.amount / 100 }} {{ product.priceNett.currency }}</td>
+                                    <td>{{ product.vatRate}}%</td>
+                                    <td>{{ product.vatValue.amount / 100}} {{ product.priceNett.currency }}</td>
+                                    <td>{{ product.priceGross.amount / 100 }} {{ product.priceGross.currency }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr class="table-borderless">
+                                <td class="table-borderless"></td>
+                                <td class="table-borderless"></td>
+                                <td class="table-borderless"></td>
+                                <td class="table-borderless"></td>
+                                <td class="table-borderless"></td>
+                                <td><b>Total: </b>{{ invoice.totalPriceNett.amount / 100 }} {{ invoice.currency }}</td>
+                                <td class="table-borderless"></td>
+                                <td><b>Total: </b>{{ invoice.totalPriceGross.amount / 100 }} {{ invoice.currency }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-light pull-right" target="_blank" href="/generatePdf/{{ invoice.id }}">Generate PDF</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

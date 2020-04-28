@@ -1,0 +1,198 @@
+<div class="row">
+    <div class="col-5">
+        <p class="text-center bold-24px">Issuer</p>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Name</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[issuer][name]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Vat ID</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[issuer][vatId]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Country</label>
+                </div>
+                <div class="col-9">
+                    <select required  name="invoice[issuer][billingAddress][country]" class="form-control">
+                        {% for country in countries %}
+                            <option value="{{ country.id }}">{{ country.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Post code</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[issuer][billingAddress][postCode]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>City</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[issuer][billingAddress][city]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Street name</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[issuer][billingAddress][streetName]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Building number</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[issuer][billingAddress][buildingNumber]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Apartment number</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[issuer][billingAddress][apartmentNumber]"
+                           class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Account number</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[issuer][accountNumber]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-5 offset-2">
+        <p class="text-center bold-24px">Receiver</p>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Name</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[receiver][name]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Vat ID</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[receiver][vatId]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Country</label>
+                </div>
+                <div class="col-9">
+                    <select required  name="invoice[receiver][billingAddress][country]" class="form-control">
+                        {% for country in countries %}
+                            <option value="{{ country.id }}">{{ country.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Post code</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[receiver][billingAddress][postCode]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>City</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[receiver][billingAddress][city]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Street name</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[receiver][billingAddress][streetName]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Building number</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[receiver][billingAddress][buildingNumber]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Apartment number</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[receiver][billingAddress][apartmentNumber]"
+                           class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <label>Account number</label>
+                </div>
+                <div class="col-9">
+                    <input required type="text" name="invoice[receiver][accountNumber]" class="form-control"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
